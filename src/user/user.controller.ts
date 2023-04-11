@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Redirect,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { QueryUserDto } from './dto/query-user.dto';
 
 @Controller({
   path: 'user',
@@ -24,8 +27,8 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() query?: QueryUserDto) {
+    return this.userService.findAll(query);
   }
 
   @Get(':id')
@@ -41,5 +44,16 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  @Get('redirect/to')
+  @Redirect('http://www.baidu.com')
+  async toRedirect() {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('');
+      }, 2 * 1000);
+    });
+    return 'success';
   }
 }
