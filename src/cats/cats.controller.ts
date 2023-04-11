@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { LoggerMiddleware } from 'src/middle/LoggerMiddleware';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';

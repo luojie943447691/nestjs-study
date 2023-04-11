@@ -28,6 +28,8 @@ export class UserController {
 
   @Get()
   findAll(@Query() query?: QueryUserDto) {
+    console.log('enter user findAll');
+
     return this.userService.findAll(query);
   }
 
