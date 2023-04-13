@@ -10,10 +10,14 @@ import { UserModule } from './user/user.module';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './middle/LoggerMiddleware';
 
+const versionProvider = {
+  useValue: '1',
+  provide: 'version',
+};
 @Module({
   imports: [UserModule, CatsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, versionProvider],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

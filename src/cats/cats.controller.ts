@@ -6,8 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  Inject,
 } from '@nestjs/common';
-import { LoggerMiddleware } from 'src/middle/LoggerMiddleware';
+import axios from 'axios';
+import { HttpService } from 'src/http/HttpService';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -15,9 +17,13 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cats')
 export class CatsController {
+  // @Inject(HttpService)
+  // readonly httpService: HttpService;
+
   constructor(
     private readonly catsService: CatsService,
     private readonly useService: UserService,
+    private readonly httpService: HttpService,
   ) {}
 
   @Post()
@@ -45,5 +51,12 @@ export class CatsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.catsService.remove(+id);
+  }
+
+  @Get('test/dog')
+  async findDog() {
+    return await this.httpService.fetchData(
+      'http://localhost:8889/server2/getStudentList',
+    );
   }
 }
