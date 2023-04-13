@@ -17,9 +17,6 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cats')
 export class CatsController {
-  // @Inject(HttpService)
-  // readonly httpService: HttpService;
-
   constructor(
     private readonly catsService: CatsService,
     private readonly useService: UserService,
