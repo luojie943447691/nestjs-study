@@ -6,9 +6,11 @@ import {
   Patch,
   Param,
   Delete,
-  Inject,
+  HttpException,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
-import axios from 'axios';
+import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
 import { HttpService } from 'src/http/HttpService';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
@@ -55,5 +57,18 @@ export class CatsController {
     return await this.httpService.fetchData(
       'http://localhost:8889/server2/getStudentList',
     );
+  }
+
+  @Get('test/filter')
+  testFilter() {
+    // throw new HttpException(
+    //   {
+    //     message: '出错了！',
+    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
+    //   },
+    //   HttpStatus.INTERNAL_SERVER_ERROR,
+    // );
+
+    throw new UserCustomExcetion();
   }
 }
