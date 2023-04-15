@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Inject,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/exception-filter/HttpExceptionFilter';
 import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
@@ -38,19 +39,19 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    console.log('id', id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    console.log('id', typeof id);
 
     return this.catsService.findOne(+id) + this.useService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+  update(@Param('id') id: number, @Body() updateCatDto: UpdateCatDto) {
     return this.catsService.update(+id, updateCatDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.catsService.remove(+id);
   }
 
