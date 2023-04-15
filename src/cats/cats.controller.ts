@@ -8,16 +8,16 @@ import {
   Delete,
   Inject,
   ParseIntPipe,
-  UsePipes,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/exception-filter/HttpExceptionFilter';
 import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
 import { HttpService } from 'src/http/HttpService';
-import { ValidationPipe } from 'src/pipies/ValidationPipe';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { Cat } from './entities/cat.entity';
+import { CatByIdPipe } from './pipes/CatByIdPipe';
 
 @Controller('cats')
 export class CatsController {
@@ -41,10 +41,11 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    console.log('id', typeof id);
-
-    return this.catsService.findOne(+id) + this.useService.findOne(+id);
+  findOne(
+    @Param('id', ParseIntPipe, CatByIdPipe)
+    cat: Cat,
+  ) {
+    return cat;
   }
 
   @Patch(':id')

@@ -5,7 +5,14 @@ import { Cat } from './entities/cat.entity';
 
 @Injectable()
 export class CatsService {
-  private readonly cats: Cat[] = [];
+  private readonly cats: Cat[] = [
+    {
+      name: 'Robert Harris',
+      age: 8166920378099556,
+      breed: '5513170126061614',
+      id: 1,
+    },
+  ];
 
   create(createCatDto: CreateCatDto) {
     this.cats.push(createCatDto);
@@ -16,7 +23,7 @@ export class CatsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} cat`;
+    return this.cats.find((d) => d.id === id);
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {

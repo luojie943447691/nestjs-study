@@ -15,7 +15,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     // TODO: 比如打印日志
-    console.log('enter to httpexception filter');
+    // console.log('enter to httpexception filter');
+    console.log('error message', exception.getResponse());
 
     res.status(status).json({
       statusCode: status,
