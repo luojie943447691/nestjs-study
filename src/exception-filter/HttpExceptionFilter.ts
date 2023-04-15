@@ -23,4 +23,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
       path: req.url,
     });
   }
+
+  logSomeMessage() {
+    console.log('this message from HttpExceptionFilter');
+  }
 }

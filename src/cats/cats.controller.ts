@@ -6,10 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  HttpException,
-  HttpCode,
-  HttpStatus,
+  Inject,
 } from '@nestjs/common';
+import { HttpExceptionFilter } from 'src/exception-filter/HttpExceptionFilter';
 import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
 import { HttpService } from 'src/http/HttpService';
 import { UserService } from 'src/user/user.service';
@@ -19,6 +18,9 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cats')
 export class CatsController {
+  @Inject(HttpExceptionFilter)
+  appFilter: HttpExceptionFilter;
+
   constructor(
     private readonly catsService: CatsService,
     private readonly useService: UserService,
@@ -70,5 +72,10 @@ export class CatsController {
     // );
 
     throw new UserCustomExcetion();
+  }
+
+  @Get('test/bindingFilter')
+  testBindingFilter() {
+    this.appFilter.logSomeMessage();
   }
 }
