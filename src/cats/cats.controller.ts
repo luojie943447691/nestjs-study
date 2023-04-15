@@ -8,10 +8,12 @@ import {
   Delete,
   Inject,
   ParseIntPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/exception-filter/HttpExceptionFilter';
 import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
 import { HttpService } from 'src/http/HttpService';
+import { ValidationPipe } from 'src/pipies/ValidationPipe';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
