@@ -8,11 +8,15 @@ import {
   Delete,
   Inject,
   ParseIntPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/exception-filter/HttpExceptionFilter';
 import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
 import { Roles } from 'src/guards/Roles';
 import { HttpService } from 'src/http/HttpService';
+import { ErrorsInterceptor } from 'src/interceptors/ErrorsInterceptor';
+import { ExcludeNullInterceptor } from 'src/interceptors/ExcludeNullInterceptor';
+import { TransformInterceptor } from 'src/interceptors/TransformInterceptor';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -21,6 +25,11 @@ import { Cat } from './entities/cat.entity';
 import { CatByIdPipe } from './pipes/CatByIdPipe';
 
 @Controller('cats')
+@UseInterceptors(
+  TransformInterceptor,
+  ExcludeNullInterceptor,
+  ErrorsInterceptor,
+)
 export class CatsController {
   @Inject(HttpExceptionFilter)
   appFilter: HttpExceptionFilter;

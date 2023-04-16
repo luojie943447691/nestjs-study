@@ -9,10 +9,13 @@ export class CatsService {
     {
       name: 'Robert Harris',
       age: 8166920378099556,
-      breed: '5513170126061614',
+      breed: null,
       id: 1,
     },
+    null,
   ];
+
+  // private readonly cats: Cat[] = null;
 
   create(createCatDto: CreateCatDto) {
     this.cats.push(createCatDto);
