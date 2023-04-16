@@ -19,6 +19,7 @@ import { ExcludeNullInterceptor } from 'src/interceptors/ExcludeNullInterceptor'
 import { TransformInterceptor } from 'src/interceptors/TransformInterceptor';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
+import { CONNECTION } from './constant';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
@@ -51,7 +52,7 @@ export class CatsController {
   }
 
   @Get(':id')
-  @Roles('admin')
+  // @Roles('admin')
   findOne(
     @Param('id', ParseIntPipe, CatByIdPipe)
     cat: Cat,
@@ -92,5 +93,10 @@ export class CatsController {
   @Get('test/bindingFilter')
   testBindingFilter() {
     this.appFilter.logSomeMessage();
+  }
+
+  @Get('connection')
+  testConnection(@Inject(CONNECTION) connection: string) {
+    return `${connection}`;
   }
 }

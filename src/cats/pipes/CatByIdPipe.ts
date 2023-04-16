@@ -11,6 +11,7 @@ export class CatByIdPipe implements PipeTransform<number, Cat> {
   }
   transform(value: number, metadata: ArgumentMetadata) {
     const res = this.service.findOne(value);
+
     return res;
   }
 }

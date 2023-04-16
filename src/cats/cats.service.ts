@@ -26,7 +26,7 @@ export class CatsService {
   }
 
   findOne(id: number) {
-    return this.cats.find((d) => d.id === id);
+    return this.cats.find((d) => d?.id === id);
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {

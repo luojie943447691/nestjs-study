@@ -5,6 +5,8 @@ import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 import { LoggingInterceptor } from './interceptors/LoggingInterceptor';
 
 async function bootstrap() {
+  process.env.NODE_ENV = 'production';
+
   const app = await NestFactory.create(AppModule);
   // 启用接口 api 版本
   app.enableVersioning({
