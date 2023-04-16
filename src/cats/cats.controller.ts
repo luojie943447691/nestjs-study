@@ -19,7 +19,7 @@ import { ExcludeNullInterceptor } from 'src/interceptors/ExcludeNullInterceptor'
 import { TransformInterceptor } from 'src/interceptors/TransformInterceptor';
 import { UserService } from 'src/user/user.service';
 import { CatsService, Test } from './cats.service';
-import { CONNECTION } from './constant';
+import { CONNECTION, FACTORY_CON } from './constant';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
@@ -34,6 +34,11 @@ import { CatByIdPipe } from './pipes/CatByIdPipe';
 export class CatsController {
   @Inject(HttpExceptionFilter)
   appFilter: HttpExceptionFilter;
+
+  @Inject(CONNECTION)
+  connection: string;
+  @Inject(FACTORY_CON)
+  factory: string;
 
   constructor(
     private readonly catsService: CatsService,
@@ -96,8 +101,13 @@ export class CatsController {
     this.appFilter.logSomeMessage();
   }
 
-  @Get('connection')
-  testConnection(@Inject(CONNECTION) connection: string) {
-    return `${connection}`;
+  @Get('test/connection')
+  testConnection() {
+    return `${this.connection}`;
+  }
+
+  @Get('test/factory')
+  testFactory() {
+    return this.factory;
   }
 }

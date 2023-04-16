@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { CatsService, ProductionCatsService, Test } from './cats.service';
 import { CatsController } from './cats.controller';
 import { UserModule } from 'src/user/user.module';
 import { HttpModule } from 'src/http/HttpModule';
-import { CONNECTION } from './constant';
+import { CONNECTION, FACTORY_CON } from './constant';
+import { OptionsProvider } from './providers/OptionsProvider';
+import { OptionsProviderModule } from './providers/OptionsProviderModule';
 
 const mockCatsService = {
   /* mock implementation
@@ -18,6 +20,7 @@ const mockCatsServiceProvider = {
   useValue: mockCatsService,
 };
 
+// useValue
 const connection = 'this is connection';
 const connectionProvider = {
   provide: CONNECTION,
@@ -36,14 +39,24 @@ const configServiceProvider = {
       : ProductionCatsService,
 };
 
+// useFactory
+const connectionFactory: Provider = {
+  provide: FACTORY_CON,
+  useFactory: (optionsProvider: OptionsProvider) => {
+    return `${optionsProvider.get()} 123`;
+  },
+  inject: [OptionsProvider],
+};
+
 @Module({
-  imports: [UserModule, HttpModule],
+  imports: [UserModule, HttpModule, OptionsProviderModule],
   controllers: [CatsController],
   providers: [
     // CatsService,
     // mockCatsServiceProvider,
     connectionProvider,
     configServiceProvider,
+    connectionFactory,
   ],
 })
 export class CatsModule {}
