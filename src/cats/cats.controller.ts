@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/exception-filter/HttpExceptionFilter';
 import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
+import { Roles } from 'src/guards/Roles';
 import { HttpService } from 'src/http/HttpService';
 import { UserService } from 'src/user/user.service';
 import { CatsService } from './cats.service';
@@ -41,6 +42,7 @@ export class CatsController {
   }
 
   @Get(':id')
+  @Roles('admin')
   findOne(
     @Param('id', ParseIntPipe, CatByIdPipe)
     cat: Cat,

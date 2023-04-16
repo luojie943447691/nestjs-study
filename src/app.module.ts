@@ -10,11 +10,19 @@ import { UserModule } from './user/user.module';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './middle/LoggerMiddleware';
 import { GlobalModule } from './global.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './guards/RolesGuard';
 
 @Module({
   imports: [UserModule, CatsModule, GlobalModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
