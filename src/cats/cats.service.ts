@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Inject, Injectable } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
@@ -35,5 +35,40 @@ export class CatsService {
 
   remove(id: number) {
     return `This action removes a #${id} cat`;
+  }
+}
+
+@Injectable()
+export class ProductionCatsService {
+  @Get()
+  findAll() {
+    return 'this is from production findAll';
+  }
+}
+
+@Injectable()
+export class Test {
+  private readonly cats: Cat[] = [];
+
+  // private readonly cats: Cat[] = null;
+
+  create(createCatDto: CreateCatDto) {
+    this.cats.push(createCatDto);
+  }
+
+  findAll() {
+    return this.cats;
+  }
+
+  findOne(id: number) {
+    return 'Test';
+  }
+
+  update(id: number, updateCatDto: UpdateCatDto) {
+    return 'Test';
+  }
+
+  remove(id: number) {
+    return 'Test';
   }
 }

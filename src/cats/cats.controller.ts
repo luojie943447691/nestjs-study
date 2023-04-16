@@ -18,7 +18,7 @@ import { ErrorsInterceptor } from 'src/interceptors/ErrorsInterceptor';
 import { ExcludeNullInterceptor } from 'src/interceptors/ExcludeNullInterceptor';
 import { TransformInterceptor } from 'src/interceptors/TransformInterceptor';
 import { UserService } from 'src/user/user.service';
-import { CatsService } from './cats.service';
+import { CatsService, Test } from './cats.service';
 import { CONNECTION } from './constant';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -37,6 +37,7 @@ export class CatsController {
 
   constructor(
     private readonly catsService: CatsService,
+    // private readonly catsService: Test,
     private readonly useService: UserService,
     private readonly httpService: HttpService,
   ) {}
