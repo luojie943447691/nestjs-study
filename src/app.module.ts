@@ -12,9 +12,15 @@ import { LoggerMiddleware } from './middle/LoggerMiddleware';
 import { GlobalModule } from './global.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/RolesGuard';
+import { ConfigModule } from './dynamic-modules/config/config.module';
 
 @Module({
-  imports: [UserModule, CatsModule, GlobalModule],
+  imports: [
+    UserModule,
+    CatsModule,
+    GlobalModule,
+    ConfigModule.register({ folder: 'env' }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,
