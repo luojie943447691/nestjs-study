@@ -1,4 +1,5 @@
-import { Get, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Get, Inject, Injectable } from '@nestjs/common';
+import { CommonService } from 'src/circular-dependency/CommonService';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
@@ -14,6 +15,11 @@ export class CatsService {
     },
     null,
   ];
+
+  constructor(
+    @Inject(forwardRef(() => CommonService))
+    private readonly commonService: CommonService,
+  ) {}
 
   // private readonly cats: Cat[] = null;
 

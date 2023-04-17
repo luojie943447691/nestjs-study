@@ -6,6 +6,8 @@ import { HttpModule } from 'src/http/HttpModule';
 import { CONNECTION, FACTORY_CON } from './constant';
 import { OptionsProvider } from './providers/OptionsProvider';
 import { OptionsProviderModule } from './providers/OptionsProviderModule';
+import { CommonServiceModule } from 'src/circular-dependency/CommonServiceModule';
+import { CommonService } from 'src/circular-dependency/CommonService';
 
 const mockCatsService = {
   /* mock implementation
@@ -49,7 +51,7 @@ const connectionFactory: Provider = {
 };
 
 @Module({
-  imports: [UserModule, HttpModule, OptionsProviderModule],
+  imports: [UserModule, HttpModule, OptionsProviderModule, CommonServiceModule],
   controllers: [CatsController],
   providers: [
     // CatsService,
