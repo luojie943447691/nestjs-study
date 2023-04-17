@@ -10,6 +10,8 @@ import {
   ParseIntPipe,
   UseInterceptors,
 } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 import { HttpExceptionFilter } from 'src/exception-filter/HttpExceptionFilter';
 import { UserCustomExcetion } from 'src/exception-filter/UserCustomException';
 import { Roles } from 'src/guards/Roles';
@@ -45,7 +47,10 @@ export class CatsController {
     // private readonly catsService: Test,
     private readonly useService: UserService,
     private readonly httpService: HttpService,
-  ) {}
+    @Inject(REQUEST) private req: Request,
+  ) {
+    // console.log('req', req);
+  }
 
   @Post()
   create(@Body() createCatDto: CreateCatDto) {
