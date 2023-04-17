@@ -7,7 +7,7 @@ export class CommonService {
     @Inject(forwardRef(() => CatsService))
     private catsService: CatsService,
   ) {
-    console.log('catsService', this.catsService);
+    // console.log('catsService', this.catsService);
   }
 
   getCommonStr() {

@@ -1,11 +1,19 @@
-import { forwardRef, Get, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  Get,
+  Inject,
+  Injectable,
+  OnModuleInit,
+} from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import { CommonService } from 'src/circular-dependency/CommonService';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
 
 @Injectable()
-export class CatsService {
+export class CatsService implements OnModuleInit {
+  private service: CommonService;
   private readonly cats: Cat[] = [
     {
       name: 'Robert Harris',
@@ -19,7 +27,12 @@ export class CatsService {
   constructor(
     @Inject(forwardRef(() => CommonService))
     private readonly commonService: CommonService,
+    private moduleRef: ModuleRef,
   ) {}
+  onModuleInit() {
+    // 全局查找
+    this.service = this.moduleRef.get(CommonService, { strict: false });
+  }
 
   // private readonly cats: Cat[] = null;
 
