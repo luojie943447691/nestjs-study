@@ -29,7 +29,7 @@ const connectionProvider = {
   useValue: connection,
 };
 
-process.env.NODE_ENV = 'development';
+// process.env.NODE_ENV = 'development';
 
 // useClass
 const configServiceProvider = {
