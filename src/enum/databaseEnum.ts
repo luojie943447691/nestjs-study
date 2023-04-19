@@ -1,6 +1,9 @@
 export enum DatabaseEnum {
-  DB = 'DB',
+  DB_TYPE = 'DB_TYPE',
   DB_HOST = 'DB_HOST',
-  DB_USER_NAME = 'DB_USER_NAME',
+  DB_PORT = 'DB_PORT',
+  DB_USERNAME = 'DB_USERNAME',
   DB_PASSWORD = 'DB_PASSWORD',
+  DB_DATABASE = 'DB_DATABASE',
+  DB_SYNC = 'DB_SYNC',
 }

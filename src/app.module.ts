@@ -13,9 +13,12 @@ import { GlobalModule } from './global.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/RolesGuard';
 // import { ConfigModule } from './dynamic-modules/config/config.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { DatabaseEnum } from './enum/databaseEnum';
+import * as Joi from 'joi';
 
 const envFilePath = path.join(
   __dirname,
@@ -33,7 +36,48 @@ const envFilePath = path.join(
       isGlobal: true,
       envFilePath,
       load: [() => dotenv.config({ path: path.join(__dirname, '..', '.env') })],
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test', 'provision')
+          .default('development'),
+        DB_TYPE: Joi.string().default('mysql'),
+        DB_HOST: Joi.string().ip(),
+        DB_PORT: Joi.number().default(3306),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_DATABASE: Joi.string().required(),
+        DB_SYNC: Joi.boolean().required(),
+      }),
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        ({
+          type: configService.get(DatabaseEnum.DB_TYPE),
+          host: configService.get(DatabaseEnum.DB_HOST),
+          port: configService.get(DatabaseEnum.DB_PORT),
+          username: configService.get(DatabaseEnum.DB_USERNAME),
+          password: configService.get(DatabaseEnum.DB_PASSWORD),
+          database: configService.get(DatabaseEnum.DB_DATABASE),
+          // 同步本地的 schema -> 数据库 ，一般是初始化使用
+          synchronize: configService.get(DatabaseEnum.DB_SYNC),
+          logging: ['error', 'warn'],
+          entities: [],
+        } as TypeOrmModuleOptions),
+    }),
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3306,
+    //   username: 'root',
+    //   password: 'example',
+    //   database: 'testdb',
+    //   // 同步本地的 schema -> 数据库 ，一般是初始化使用
+    //   synchronize: true,
+    //   logging: ['error', 'warn'],
+    //   entities: [],
+    // }),
   ],
   controllers: [AppController],
   providers: [

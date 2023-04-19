@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseEnum } from './enum/databaseEnum';
 // import { ConfigService } from './dynamic-modules/config/config.service';
-import config from 'config';
+import * as config from 'config';
 
 @Controller()
 export class AppController {
@@ -12,11 +12,11 @@ export class AppController {
     // private readonly configService: ConfigService,
     private readonly configService: ConfigService,
   ) {
-    console.log('DB', this.configService.get(DatabaseEnum.DB));
+    console.log('DB', this.configService.get(DatabaseEnum.DB_TYPE));
     console.log('DB_HOST', this.configService.get(DatabaseEnum.DB_HOST));
     console.log(
       'DB_USER_NAME',
-      this.configService.get(DatabaseEnum.DB_USER_NAME),
+      this.configService.get(DatabaseEnum.DB_USERNAME),
     );
     console.log(
       'DB_PASSWORD',
