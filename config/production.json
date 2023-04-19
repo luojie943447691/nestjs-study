@@ -1,0 +1,7 @@
+{
+  "DB": {
+    "HOST": "127.0.0.1",
+    "USER_NAME": "production-username",
+    "PASSWORD": "production-password"
+  }
+}

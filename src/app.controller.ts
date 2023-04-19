@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseEnum } from './enum/databaseEnum';
 // import { ConfigService } from './dynamic-modules/config/config.service';
+import config from 'config';
 
 @Controller()
 export class AppController {
@@ -21,6 +22,8 @@ export class AppController {
       'DB_PASSWORD',
       this.configService.get(DatabaseEnum.DB_PASSWORD),
     );
+
+    console.log('config', config.get('DB.USER_NAME'));
   }
 
   @Get()
