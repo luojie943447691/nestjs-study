@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { LogsService } from './logs.service';
 import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
@@ -30,5 +39,10 @@ export class LogsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.logsService.remove(+id);
+  }
+
+  @Get('logsByGroup/:userId')
+  getLogsByGroup(@Param('userId', ParseIntPipe) userId: number) {
+    return this.logsService.findLogsByGroup(userId);
   }
 }

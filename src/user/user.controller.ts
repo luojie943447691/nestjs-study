@@ -8,54 +8,52 @@ import {
   Delete,
   Redirect,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
+import { User } from './entities/user.entity';
 
 @Controller({
   path: 'user',
-  version: '1',
 })
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create(@Body() user: User) {
+    return this.userService.create(user);
   }
 
   @Get()
-  findAll(@Query() query?: QueryUserDto) {
-    console.log('enter user findAll');
-
-    return this.userService.findAll(query);
+  findAll() {
+    return this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findById(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() user: User) {
+    return this.userService.update(id, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.remove(id);
   }
 
-  @Get('redirect/to')
-  @Redirect('http://www.baidu.com')
-  async toRedirect() {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve('');
-      }, 2 * 1000);
-    });
-    return 'success';
+  @Get('findProfile/:id')
+  findProfile(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findProfile(id);
+  }
+
+  @Get('logs/:id')
+  findLogs(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findLogs(id);
   }
 }
