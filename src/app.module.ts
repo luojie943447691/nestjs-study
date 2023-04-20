@@ -26,6 +26,7 @@ import { LogsModule } from './logs/logs.module';
 import { RolesModule } from './roles/roles.module';
 import { Log } from './logs/entities/log.entity';
 import { Role } from './roles/entities/role.entity';
+import { LoggerModule } from 'nestjs-pino';
 
 const envFilePath = path.join(
   __dirname,
@@ -77,18 +78,52 @@ const envFilePath = path.join(
     ProfileModule,
     LogsModule,
     RolesModule,
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: 'example',
-    //   database: 'testdb',
-    //   // 同步本地的 schema -> 数据库 ，一般是初始化使用
-    //   synchronize: true,
-    //   logging: ['error', 'warn'],
-    //   entities: [],
-    // }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          targets: [
+            process.env.NODE_ENV === 'development'
+              ? {
+                  level: 'info',
+                  target: 'pino-pretty',
+                  options: {
+                    colorize: true,
+                  },
+                }
+              : {
+                  level: 'info',
+                  target: 'pino-roll',
+                  options: {
+                    file: path.join('logs', 'log'),
+                    frequency: 'daily',
+                    mkdir: true,
+                  },
+                },
+          ],
+        },
+
+        // {
+        //   // targets: [
+        //   //   {
+        //   //     level: 'info',
+        //   //     target: 'pino-pretty',
+        //   //     options: {
+        //   //       colorize: true,
+        //   //     },
+        //   //   },
+        //   //   {
+        //   //     level: 'info',
+        //   //     target: 'pino-roll',
+        //   //     options: {
+        //   //       file: path.join('logs', 'log.txt'),
+        //   //       frequency: 'daily',
+        //   //       mkdir: true,
+        //   //     },
+        //   //   },
+        //   // ],
+        // },
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [

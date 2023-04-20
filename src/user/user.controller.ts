@@ -23,7 +23,7 @@ import { User } from './entities/user.entity';
 export class UserController {
   private logger = new Logger(UserController.name);
   constructor(private readonly userService: UserService) {
-    this.logger.warn('=====');
+    // this.logger.warn('=====');
   }
 
   @Post()
