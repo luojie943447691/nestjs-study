@@ -19,6 +19,13 @@ import * as dotenv from 'dotenv';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DatabaseEnum } from './enum/databaseEnum';
 import * as Joi from 'joi';
+import { User } from './user/entities/user.entity';
+import { ProfileModule } from './profile/profile.module';
+import { Profile } from './profile/entities/profile.entity';
+import { LogsModule } from './logs/logs.module';
+import { RolesModule } from './roles/roles.module';
+import { Log } from './logs/entities/log.entity';
+import { Role } from './roles/entities/role.entity';
 
 const envFilePath = path.join(
   __dirname,
@@ -46,7 +53,7 @@ const envFilePath = path.join(
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
-        DB_SYNC: Joi.boolean().required(),
+        DB_SYNC: Joi.boolean().default(false),
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -63,9 +70,12 @@ const envFilePath = path.join(
           // 同步本地的 schema -> 数据库 ，一般是初始化使用
           synchronize: configService.get(DatabaseEnum.DB_SYNC),
           logging: ['error', 'warn'],
-          entities: [],
+          entities: [User, Profile, Log, Role],
         } as TypeOrmModuleOptions),
     }),
+    ProfileModule,
+    LogsModule,
+    RolesModule,
     // TypeOrmModule.forRoot({
     //   type: 'mysql',
     //   host: 'localhost',
