@@ -42,7 +42,11 @@ export class LogsController {
   }
 
   @Get('logsByGroup/:userId')
-  getLogsByGroup(@Param('userId', ParseIntPipe) userId: number) {
-    return this.logsService.findLogsByGroup(userId);
+  async getLogsByGroup(@Param('userId', ParseIntPipe) userId: number) {
+    const res = await this.logsService.findLogsByGroup(userId);
+    return res.map((d) => ({
+      result: d.result,
+      count: d.count,
+    }));
   }
 }

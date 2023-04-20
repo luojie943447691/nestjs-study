@@ -43,10 +43,12 @@ export class LogsService {
   }
 
   async findLogsByGroup(id: number) {
+    // 可以直接使用原生的 query 查询
+    // return this.logRepository.query('select * from logs');
     return this.logRepository
       .createQueryBuilder('log')
-      .select('count("log.result")')
-      .addSelect('log.result')
+      .select('count("log.result")', 'count')
+      .addSelect('log.result', 'result')
       .leftJoinAndSelect('log.user', 'user')
       .where('user.id = :id', { id })
       .groupBy('log.result')
