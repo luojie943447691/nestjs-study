@@ -10,6 +10,8 @@ import {
   Query,
   ParseIntPipe,
   Logger,
+  Inject,
+  LoggerService,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,10 +23,11 @@ import { User } from './entities/user.entity';
   path: 'user',
 })
 export class UserController {
-  private logger = new Logger(UserController.name);
-  constructor(private readonly userService: UserService) {
-    // this.logger.warn('=====');
-  }
+  // private logger = new Logger(UserController.name);
+  constructor(
+    private readonly userService: UserService,
+    private readonly logger: Logger,
+  ) {}
 
   @Post()
   create(@Body() user: User) {
@@ -58,6 +61,11 @@ export class UserController {
 
   @Get('logs/:id')
   findLogs(@Param('id', ParseIntPipe) id: number) {
+    this.logger.log('请求logs成功');
+    this.logger.warn('请求logs成功');
+    this.logger.debug('请求logs成功');
+    this.logger.error('请求logs成功');
+    this.logger.verbose('请求logs成功');
     return this.userService.findLogs(id);
   }
 }

@@ -10,14 +10,14 @@ export function handlePinoModule(): DynamicModule {
           process.env.NODE_ENV === 'development'
             ? {
                 level: 'info',
-                target: 'pino-pretty',
+                target: 'pino-pretty', // 在开发的时候打印信息
                 options: {
                   colorize: true,
                 },
               }
             : {
                 level: 'info',
-                target: 'pino-roll',
+                target: 'pino-roll', // 设置滚动日志
                 options: {
                   file: path.join('logs', 'log'),
                   frequency: 'daily',

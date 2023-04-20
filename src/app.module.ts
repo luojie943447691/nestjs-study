@@ -1,4 +1,5 @@
 import {
+  Logger,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -36,9 +37,6 @@ const envFilePath = path.join(
 
 @Module({
   imports: [
-    UserModule,
-    CatsModule,
-    GlobalModule,
     // ConfigModule.register({ folder: 'env' }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -75,10 +73,13 @@ const envFilePath = path.join(
           entities: [User, Profile, Log, Role],
         } as TypeOrmModuleOptions),
     }),
+    // handlePinoModule(),
     ProfileModule,
     LogsModule,
     RolesModule,
-    handlePinoModule(),
+    UserModule,
+    CatsModule,
+    GlobalModule,
   ],
   controllers: [AppController],
   providers: [

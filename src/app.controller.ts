@@ -1,4 +1,11 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  Logger,
+  LoggerService,
+  Param,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseEnum } from './enum/databaseEnum';
@@ -12,18 +19,17 @@ export class AppController {
     // private readonly configService: ConfigService,
     private readonly configService: ConfigService,
   ) {
-    console.log('DB', this.configService.get(DatabaseEnum.DB_TYPE));
-    console.log('DB_HOST', this.configService.get(DatabaseEnum.DB_HOST));
-    console.log(
-      'DB_USER_NAME',
-      this.configService.get(DatabaseEnum.DB_USERNAME),
-    );
-    console.log(
-      'DB_PASSWORD',
-      this.configService.get(DatabaseEnum.DB_PASSWORD),
-    );
-
-    console.log('config', config.get('DB.USER_NAME'));
+    // console.log('DB', this.configService.get(DatabaseEnum.DB_TYPE));
+    // console.log('DB_HOST', this.configService.get(DatabaseEnum.DB_HOST));
+    // console.log(
+    //   'DB_USER_NAME',
+    //   this.configService.get(DatabaseEnum.DB_USERNAME),
+    // );
+    // console.log(
+    //   'DB_PASSWORD',
+    //   this.configService.get(DatabaseEnum.DB_PASSWORD),
+    // );
+    // console.log('config', config.get('DB.USER_NAME'));
   }
 
   @Get()

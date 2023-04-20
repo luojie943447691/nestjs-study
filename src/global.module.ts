@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Logger, Module } from '@nestjs/common';
 import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 
 const httpexceptionFilterProvider = {
@@ -7,7 +7,7 @@ const httpexceptionFilterProvider = {
 };
 @Global()
 @Module({
-  providers: [httpexceptionFilterProvider],
-  exports: [httpexceptionFilterProvider],
+  providers: [httpexceptionFilterProvider, Logger],
+  exports: [httpexceptionFilterProvider, Logger],
 })
 export class GlobalModule {}
