@@ -9,6 +9,7 @@ import {
   Redirect,
   Query,
   ParseIntPipe,
+  Logger,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,7 +21,10 @@ import { User } from './entities/user.entity';
   path: 'user',
 })
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  private logger = new Logger(UserController.name);
+  constructor(private readonly userService: UserService) {
+    this.logger.warn('=====');
+  }
 
   @Post()
   create(@Body() user: User) {

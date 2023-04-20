@@ -69,7 +69,7 @@ const envFilePath = path.join(
           database: configService.get(DatabaseEnum.DB_DATABASE),
           // 同步本地的 schema -> 数据库 ，一般是初始化使用
           synchronize: configService.get(DatabaseEnum.DB_SYNC),
-          logging: true,
+          logging: false,
           // logging: ['error', 'warn'],
           entities: [User, Profile, Log, Role],
         } as TypeOrmModuleOptions),
