@@ -26,7 +26,7 @@ import { LogsModule } from './logs/logs.module';
 import { RolesModule } from './roles/roles.module';
 import { Log } from './logs/entities/log.entity';
 import { Role } from './roles/entities/role.entity';
-import { LoggerModule } from 'nestjs-pino';
+import { handlePinoModule } from './pino';
 
 const envFilePath = path.join(
   __dirname,
@@ -78,52 +78,7 @@ const envFilePath = path.join(
     ProfileModule,
     LogsModule,
     RolesModule,
-    LoggerModule.forRoot({
-      pinoHttp: {
-        transport: {
-          targets: [
-            process.env.NODE_ENV === 'development'
-              ? {
-                  level: 'info',
-                  target: 'pino-pretty',
-                  options: {
-                    colorize: true,
-                  },
-                }
-              : {
-                  level: 'info',
-                  target: 'pino-roll',
-                  options: {
-                    file: path.join('logs', 'log'),
-                    frequency: 'daily',
-                    mkdir: true,
-                  },
-                },
-          ],
-        },
-
-        // {
-        //   // targets: [
-        //   //   {
-        //   //     level: 'info',
-        //   //     target: 'pino-pretty',
-        //   //     options: {
-        //   //       colorize: true,
-        //   //     },
-        //   //   },
-        //   //   {
-        //   //     level: 'info',
-        //   //     target: 'pino-roll',
-        //   //     options: {
-        //   //       file: path.join('logs', 'log.txt'),
-        //   //       frequency: 'daily',
-        //   //       mkdir: true,
-        //   //     },
-        //   //   },
-        //   // ],
-        // },
-      },
-    }),
+    handlePinoModule(),
   ],
   controllers: [AppController],
   providers: [
