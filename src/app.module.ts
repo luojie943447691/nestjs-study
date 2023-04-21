@@ -31,6 +31,7 @@ import { handlePinoModule } from './pino';
 import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 import { AllException } from './exception-filter/AllExceptionFilter';
 import { LogModule } from './log/log.module';
+import ormconfig from 'ormconfig';
 
 const envFilePath = path.join(
   __dirname,
@@ -52,30 +53,13 @@ const envFilePath = path.join(
         DB_TYPE: Joi.string().default('mysql'),
         DB_HOST: Joi.string().ip(),
         DB_PORT: Joi.number().default(3306),
-        DB_USERNAME: Joi.string().required(),
-        DB_PASSWORD: Joi.string().required(),
-        DB_DATABASE: Joi.string().required(),
+        // DB_USERNAME: Joi.string().required(),
+        // DB_PASSWORD: Joi.string().required(),
+        // DB_DATABASE: Joi.string().required(),
         DB_SYNC: Joi.boolean().default(false),
       }),
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        ({
-          type: configService.get(DatabaseEnum.DB_TYPE),
-          host: configService.get(DatabaseEnum.DB_HOST),
-          port: configService.get(DatabaseEnum.DB_PORT),
-          username: configService.get(DatabaseEnum.DB_USERNAME),
-          password: configService.get(DatabaseEnum.DB_PASSWORD),
-          database: configService.get(DatabaseEnum.DB_DATABASE),
-          // 同步本地的 schema -> 数据库 ，一般是初始化使用
-          synchronize: configService.get(DatabaseEnum.DB_SYNC),
-          logging: false,
-          // logging: ['error', 'warn'],
-          entities: [User, Profile, Log, Role],
-        } as TypeOrmModuleOptions),
-    }),
+    TypeOrmModule.forRoot(ormconfig),
     // handlePinoModule(),
     ProfileModule,
     LogsModule,

@@ -63,7 +63,7 @@ export class UserController {
   @Get('logs/:id')
   findLogs(@Param('id', ParseIntPipe) id: number) {
     this.logger.warn('这是测试信息');
-    throw new HttpException('这是测试测试日志', HttpStatus.NOT_FOUND);
+    // throw new HttpException('这是测试测试日志', HttpStatus.NOT_FOUND);
     return this.userService.findLogs(id);
   }
 }
