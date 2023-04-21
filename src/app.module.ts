@@ -29,6 +29,7 @@ import { Log } from './logs/entities/log.entity';
 import { Role } from './roles/entities/role.entity';
 import { handlePinoModule } from './pino';
 import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
+import { AllException } from './exception-filter/AllExceptionFilter';
 
 const envFilePath = path.join(
   __dirname,
@@ -91,7 +92,8 @@ const envFilePath = path.join(
     },
     {
       provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
+      // useClass: HttpExceptionFilter,
+      useClass: AllException,
     },
   ],
 })
