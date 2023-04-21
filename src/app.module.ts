@@ -31,7 +31,7 @@ import { handlePinoModule } from './pino';
 import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 import { AllException } from './exception-filter/AllExceptionFilter';
 import { LogModule } from './log/log.module';
-import ormconfig from 'ormconfig';
+import { connectionParams } from '../ormconfig';
 
 const envFilePath = path.join(
   __dirname,
@@ -59,7 +59,7 @@ const envFilePath = path.join(
         DB_SYNC: Joi.boolean().default(false),
       }),
     }),
-    TypeOrmModule.forRoot(ormconfig),
+    TypeOrmModule.forRoot(connectionParams),
     // handlePinoModule(),
     ProfileModule,
     LogsModule,

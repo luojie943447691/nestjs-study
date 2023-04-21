@@ -4,7 +4,7 @@ import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 import * as path from 'path';
-import { LogEnum } from 'src/enum/databaseEnum';
+import { LogEnum } from '../enum/databaseEnum';
 
 const {
   transports: { Console },

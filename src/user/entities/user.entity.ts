@@ -1,6 +1,3 @@
-import { Log } from 'src/logs/entities/log.entity';
-import { Profile } from 'src/profile/entities/profile.entity';
-import { Role } from 'src/roles/entities/role.entity';
 import {
   Column,
   Entity,
@@ -11,6 +8,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Log } from '../../logs/entities/log.entity';
+import { Role } from '../../roles/entities/role.entity';
+import { Profile } from '../../profile/entities/profile.entity';
 
 @Entity()
 export class User {
