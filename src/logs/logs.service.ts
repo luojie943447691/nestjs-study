@@ -4,7 +4,7 @@ import { UpdateLogDto } from './dto/update-log.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Log } from './entities/log.entity';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class LogsService {

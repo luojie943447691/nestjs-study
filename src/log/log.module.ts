@@ -10,6 +10,22 @@ const {
   transports: { Console },
 } = winston;
 
+function createDailyRotateFile(level: string, name: string) {
+  return new DailyRotateFile({
+    level: level,
+    dirname: path.join('logs'),
+    filename: `${name}-%DATE%.log`,
+    datePattern: 'YYYY-MM-DD-HH',
+    zippedArchive: true,
+    maxSize: '20m',
+    maxFiles: '14d',
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      winston.format.simple(),
+    ),
+  });
+}
+
 @Module({
   imports: [
     WinstonModule.forRootAsync({
@@ -23,39 +39,19 @@ const {
           ),
         });
 
-        const appDailyRotateFile: DailyRotateFile = new DailyRotateFile({
-          level: 'warn',
-          dirname: path.join('logs'),
-          filename: 'application-%DATE%.log',
-          datePattern: 'YYYY-MM-DD-HH',
-          zippedArchive: true,
-          maxSize: '20m',
-          maxFiles: '14d',
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.simple(),
-          ),
-        });
-
-        const infoDailyRotateFile: DailyRotateFile = new DailyRotateFile({
-          level: configService.get(LogEnum.LOG_LEVEL),
-          dirname: path.join('logs'),
-          filename: 'info-%DATE%.log',
-          datePattern: 'YYYY-MM-DD-HH',
-          zippedArchive: true,
-          maxSize: '20m',
-          maxFiles: '14d',
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.simple(),
-          ),
-        });
-
         return {
           transports: [
             console,
-            ...(configService.get(LogEnum.LOG_LEVEL)
-              ? [appDailyRotateFile, infoDailyRotateFile]
+            ...(configService.get(LogEnum.LOG_LEVEL) &&
+            configService.get(LogEnum.LOG_ON)
+              ? [
+                  // 用函数的目的是防止出现即使不打开 LOG_ON ，也会生成 log 文件的问题
+                  createDailyRotateFile('warn', 'application'),
+                  createDailyRotateFile(
+                    configService.get(LogEnum.LOG_LEVEL),
+                    'info',
+                  ),
+                ]
               : []),
           ],
         };

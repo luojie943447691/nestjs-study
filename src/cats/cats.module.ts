@@ -1,13 +1,12 @@
 import { Module, Provider } from '@nestjs/common';
 import { CatsService, ProductionCatsService, Test } from './cats.service';
 import { CatsController } from './cats.controller';
-import { UserModule } from 'src/user/user.module';
-import { HttpModule } from 'src/http/HttpModule';
+import { UserModule } from '../user/user.module';
+import { HttpModule } from '../http/HttpModule';
 import { CONNECTION, FACTORY_CON } from './constant';
 import { OptionsProvider } from './providers/OptionsProvider';
 import { OptionsProviderModule } from './providers/OptionsProviderModule';
-import { CommonServiceModule } from 'src/circular-dependency/CommonServiceModule';
-import { CommonService } from 'src/circular-dependency/CommonService';
+import { CommonServiceModule } from '../circular-dependency/CommonServiceModule';
 
 const mockCatsService = {
   /* mock implementation

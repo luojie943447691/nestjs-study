@@ -1,5 +1,5 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { CatsService } from 'src/cats/cats.service';
+import { CatsService } from '../cats/cats.service';
 
 @Injectable()
 export class CommonService {

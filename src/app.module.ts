@@ -33,11 +33,7 @@ import { AllException } from './exception-filter/AllExceptionFilter';
 import { LogModule } from './log/log.module';
 import { connectionParams } from '../ormconfig';
 
-const envFilePath = path.join(
-  __dirname,
-  '..',
-  `.env.${process.env.NODE_ENV ?? 'development'}`,
-);
+const envFilePath = `.env.${process.env.NODE_ENV ?? 'development'}`;
 
 @Module({
   imports: [
@@ -45,18 +41,23 @@ const envFilePath = path.join(
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath,
-      load: [() => dotenv.config({ path: path.join(__dirname, '..', '.env') })],
+      load: [() => dotenv.config({ path: '.env' })],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
         DB_TYPE: Joi.string().default('mysql'),
-        DB_HOST: Joi.string().ip(),
+        DB_HOST: Joi.alternatives().try(
+          Joi.string().ip(),
+          Joi.string().domain(),
+        ),
         DB_PORT: Joi.number().default(3306),
-        // DB_USERNAME: Joi.string().required(),
-        // DB_PASSWORD: Joi.string().required(),
-        // DB_DATABASE: Joi.string().required(),
+        DB_DATABASE: Joi.string().required(),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
         DB_SYNC: Joi.boolean().default(false),
+        LOG_ON: Joi.boolean().default(true),
+        LOG_LEVEL: Joi.string().default('info'),
       }),
     }),
     TypeOrmModule.forRoot(connectionParams),
