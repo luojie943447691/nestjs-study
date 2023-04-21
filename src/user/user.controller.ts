@@ -12,6 +12,8 @@ import {
   Logger,
   Inject,
   LoggerService,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -61,11 +63,7 @@ export class UserController {
 
   @Get('logs/:id')
   findLogs(@Param('id', ParseIntPipe) id: number) {
-    this.logger.log('请求logs成功');
-    this.logger.warn('请求logs成功');
-    this.logger.debug('请求logs成功');
-    this.logger.error('请求logs成功');
-    this.logger.verbose('请求logs成功');
+    throw new HttpException('这是测试测试日志', HttpStatus.NOT_FOUND);
     return this.userService.findLogs(id);
   }
 }

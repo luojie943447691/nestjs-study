@@ -14,8 +14,8 @@ async function bootstrap() {
   });
   // 日志文件
   patchWinston(app);
-  // 全局异常过滤器
-  app.useGlobalFilters(new HttpExceptionFilter());
+  // 全局异常过滤器 已经被移动到 app.module.ts 中
+  // app.useGlobalFilters(new HttpExceptionFilter());
   // 全局校验管道
   app.useGlobalPipes(new ValidationPipe());
   // 全局拦截器

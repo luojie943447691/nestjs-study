@@ -23,10 +23,10 @@ export function patchWinston(app: INestApplication) {
         zippedArchive: true,
         maxSize: '20m',
         maxFiles: '14d',
-        // format: winston.format.combine(
-        //   winston.format.timestamp(),
-        //   winston.format.simple(),
-        // ),
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.simple(),
+        ),
       }),
       new winston.transports.DailyRotateFile({
         level: 'info',
@@ -36,10 +36,10 @@ export function patchWinston(app: INestApplication) {
         zippedArchive: true,
         maxSize: '20m',
         maxFiles: '14d',
-        // format: winston.format.combine(
-        //   winston.format.timestamp(),
-        //   winston.format.simple(),
-        // ),
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.simple(),
+        ),
       }),
     ],
   });

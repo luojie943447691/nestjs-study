@@ -11,7 +11,7 @@ import { UserModule } from './user/user.module';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './middle/LoggerMiddleware';
 import { GlobalModule } from './global.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/RolesGuard';
 // import { ConfigModule } from './dynamic-modules/config/config.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -28,6 +28,7 @@ import { RolesModule } from './roles/roles.module';
 import { Log } from './logs/entities/log.entity';
 import { Role } from './roles/entities/role.entity';
 import { handlePinoModule } from './pino';
+import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 
 const envFilePath = path.join(
   __dirname,
@@ -87,6 +88,10 @@ const envFilePath = path.join(
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })
