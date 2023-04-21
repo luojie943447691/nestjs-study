@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 import { LoggingInterceptor } from './interceptors/LoggingInterceptor';
 import { patchWinston } from './winston/patchWinston';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,8 +13,9 @@ async function bootstrap() {
   app.enableVersioning({
     type: VersioningType.URI,
   });
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   // 日志文件
-  patchWinston(app);
+  // patchWinston(app);
   // 全局异常过滤器 已经被移动到 app.module.ts 中
   // app.useGlobalFilters(new HttpExceptionFilter());
   // 全局校验管道

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import axios from 'axios';
-import { LogModule } from 'src/log/LogModule';
 import { HttpService } from './HttpService';
 
 const httpOptionsProvider = {
@@ -9,7 +8,7 @@ const httpOptionsProvider = {
 };
 
 @Module({
-  imports: [LogModule],
+  imports: [],
   providers: [HttpService, httpOptionsProvider],
   exports: [HttpService],
 })

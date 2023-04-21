@@ -30,6 +30,7 @@ import { Role } from './roles/entities/role.entity';
 import { handlePinoModule } from './pino';
 import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 import { AllException } from './exception-filter/AllExceptionFilter';
+import { LogModule } from './log/log.module';
 
 const envFilePath = path.join(
   __dirname,
@@ -82,6 +83,7 @@ const envFilePath = path.join(
     UserModule,
     CatsModule,
     GlobalModule,
+    LogModule,
   ],
   controllers: [AppController],
   providers: [

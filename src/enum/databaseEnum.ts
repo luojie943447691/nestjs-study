@@ -7,3 +7,8 @@ export enum DatabaseEnum {
   DB_DATABASE = 'DB_DATABASE',
   DB_SYNC = 'DB_SYNC',
 }
+
+export enum LogEnum {
+  LOG_ON = 'LOG_ON',
+  LOG_LEVEL = 'LOG_LEVEL',
+}

@@ -6,10 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  Redirect,
-  Query,
   ParseIntPipe,
-  Logger,
   Inject,
   LoggerService,
   HttpException,
@@ -20,6 +17,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
 import { User } from './entities/user.entity';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 @Controller({
   path: 'user',
@@ -28,7 +26,8 @@ export class UserController {
   // private logger = new Logger(UserController.name);
   constructor(
     private readonly userService: UserService,
-    private readonly logger: Logger,
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly logger: LoggerService,
   ) {}
 
   @Post()
@@ -63,6 +62,7 @@ export class UserController {
 
   @Get('logs/:id')
   findLogs(@Param('id', ParseIntPipe) id: number) {
+    this.logger.warn('这是测试信息');
     throw new HttpException('这是测试测试日志', HttpStatus.NOT_FOUND);
     return this.userService.findLogs(id);
   }
