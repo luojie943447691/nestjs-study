@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
-import { DatabaseEnum } from './enum/databaseEnum';
+import { DatabaseEnum } from './enum/enum.config';
 // import { ConfigService } from './dynamic-modules/config/config.service';
 import * as config from 'config';
 

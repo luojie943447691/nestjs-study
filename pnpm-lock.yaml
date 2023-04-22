@@ -7,6 +7,7 @@ specifiers:
   '@nestjs/core': ^9.0.0
   '@nestjs/jwt': ^10.0.3
   '@nestjs/mapped-types': '*'
+  '@nestjs/passport': ^9.0.3
   '@nestjs/platform-express': ^9.0.0
   '@nestjs/schematics': ^9.0.0
   '@nestjs/testing': ^9.0.0
@@ -63,6 +64,7 @@ dependencies:
   '@nestjs/core': 9.4.0_qfvkcqqlilywzuwwu2xqitbr3m
   '@nestjs/jwt': 10.0.3_@nestjs+common@9.4.0
   '@nestjs/mapped-types': 1.2.2_jbpjjfk2f2t4q57zuyaqjyvrsi
+  '@nestjs/passport': 9.0.3_xygznos57mh4mi6h22se6rwjhq
   '@nestjs/platform-express': 9.4.0_gqkob5jndcfeb3wjw72wbdwyne
   '@nestjs/typeorm': 9.0.1_dthz7x2wljxkq2i5uo7ftpndmi
   axios: 1.3.5
@@ -1027,6 +1029,16 @@ packages:
       class-transformer: 0.5.1
       class-validator: 0.14.0
       reflect-metadata: 0.1.13
+    dev: false
+
+  /@nestjs/passport/9.0.3_xygznos57mh4mi6h22se6rwjhq:
+    resolution: {integrity: sha512-HplSJaimEAz1IOZEu+pdJHHJhQyBOPAYWXYHfAPQvRqWtw4FJF1VXl1Qtk9dcXQX1eKytDtH+qBzNQc19GWNEg==}
+    peerDependencies:
+      '@nestjs/common': ^8.0.0 || ^9.0.0
+      passport: ^0.4.0 || ^0.5.0 || ^0.6.0
+    dependencies:
+      '@nestjs/common': 9.4.0_welcnyot5bzd5wa2aovbkxpi4i
+      passport: 0.6.0
     dev: false
 
   /@nestjs/platform-express/9.4.0_gqkob5jndcfeb3wjw72wbdwyne:

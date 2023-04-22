@@ -6,7 +6,7 @@ import { User } from './src/user/entities/user.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
-import { DatabaseEnum } from './src/enum/databaseEnum';
+import { DatabaseEnum } from './src/enum/enum.config';
 function getEnv(env: string) {
   console.log('env', env);
   if (fs.existsSync(env)) {

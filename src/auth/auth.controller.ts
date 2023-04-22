@@ -6,9 +6,12 @@ import { SigninAuth } from './dto/signin-auth.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('signin')
-  signin(@Body() dto: SigninAuth) {
+  async signin(@Body() dto: SigninAuth) {
     const { username, password } = dto;
-    return this.authService.signin(username, password);
+    const token = await this.authService.signin(username, password);
+    return {
+      access_token: token,
+    };
   }
 
   @Post('signup')

@@ -18,7 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { DatabaseEnum } from './enum/databaseEnum';
+import { DatabaseEnum } from './enum/enum.config';
 import * as Joi from 'joi';
 import { User } from './user/entities/user.entity';
 import { ProfileModule } from './profile/profile.module';

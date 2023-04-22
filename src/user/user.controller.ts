@@ -11,6 +11,8 @@ import {
   LoggerService,
   HttpException,
   HttpStatus,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,6 +21,8 @@ import { QueryUserDto } from './dto/query-user.dto';
 import { User } from './entities/user.entity';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { CreateUserPipe } from './pipes/create-user.pipe';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 @Controller({
   path: 'user',
@@ -57,7 +61,10 @@ export class UserController {
   }
 
   @Get('findProfile/:id')
-  findProfile(@Param('id', ParseIntPipe) id: number) {
+  @UseGuards(AuthGuard('jwt'))
+  findProfile(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    console.log('===', req.user);
+
     return this.userService.findProfile(id);
   }
 
