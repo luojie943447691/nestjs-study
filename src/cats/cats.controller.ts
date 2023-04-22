@@ -13,7 +13,6 @@ import {
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { HttpExceptionFilter } from '../exception-filter/HttpExceptionFilter';
-import { UserCustomExcetion } from '../exception-filter/UserCustomException';
 import { HttpService } from '../http/HttpService';
 import { ErrorsInterceptor } from '../interceptors/ErrorsInterceptor';
 import { ExcludeNullInterceptor } from '../interceptors/ExcludeNullInterceptor';
@@ -85,19 +84,6 @@ export class CatsController {
     return await this.httpService.fetchData(
       'http://localhost:8889/server2/getStudentList',
     );
-  }
-
-  @Get('test/filter')
-  testFilter() {
-    // throw new HttpException(
-    //   {
-    //     message: '出错了！',
-    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
-    //   },
-    //   HttpStatus.INTERNAL_SERVER_ERROR,
-    // );
-
-    throw new UserCustomExcetion();
   }
 
   @Get('test/bindingFilter')

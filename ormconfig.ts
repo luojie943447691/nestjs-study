@@ -23,7 +23,7 @@ function getConnectParameters() {
 
   const entitiesDir =
     process.env.NODE_ENV === 'development'
-      ? [__dirname + '/src/**/entities/*.entity.ts']
+      ? [__dirname + '/src/**/entities/*.entity.{js,ts}']
       : [__dirname + '/src/**/entities/*.entity.{js,ts}'];
 
   return {

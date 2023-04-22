@@ -32,6 +32,7 @@ import { HttpExceptionFilter } from './exception-filter/HttpExceptionFilter';
 import { AllException } from './exception-filter/AllExceptionFilter';
 import { LogModule } from './log/log.module';
 import { connectionParams } from '../ormconfig';
+import { AuthModule } from './auth/auth.module';
 
 const envFilePath = `.env.${process.env.NODE_ENV ?? 'development'}`;
 
@@ -69,6 +70,7 @@ const envFilePath = `.env.${process.env.NODE_ENV ?? 'development'}`;
     CatsModule,
     GlobalModule,
     LogModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

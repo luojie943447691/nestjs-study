@@ -18,6 +18,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
 import { User } from './entities/user.entity';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { CreateUserPipe } from './pipes/create-user.pipe';
 
 @Controller({
   path: 'user',
@@ -31,8 +32,8 @@ export class UserController {
   ) {}
 
   @Post()
-  create(@Body() user: User) {
-    return this.userService.create(user);
+  create(@Body(CreateUserPipe) user: CreateUserDto) {
+    return this.userService.create(user as User);
   }
 
   @Get()
