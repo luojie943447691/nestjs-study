@@ -61,7 +61,6 @@ export class CatsController {
   }
 
   @Get(':id')
-  // @Roles('admin')
   findOne(
     @Param('id', ParseIntPipe, CatByIdPipe)
     cat: Cat,

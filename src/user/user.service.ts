@@ -23,7 +23,7 @@ export class UserService {
   async create(user: Partial<User>) {
     // 校验是否存在相同用户名的数据
     const existed = await this.findByUsername(user.username);
-    if (existed.id) {
+    if (existed && existed.id) {
       throw new BadRequestException('您输入的账号已存在!');
     }
 
@@ -46,15 +46,22 @@ export class UserService {
   }
 
   findById(id: number) {
-    return this.userRepository.findOne({ where: { id } });
+    return this.userRepository.findOne({ where: { id }, relations: ['roles'] });
   }
 
-  findByUsername(username: string) {
-    return this.userRepository.findOne({ where: { username } });
+  async findByUsername(username: string) {
+    const user = await this.userRepository.findOne({
+      where: { username },
+      relations: ['roles'],
+    });
+
+    return user;
   }
 
-  update(id: number, user: Partial<User>) {
-    return this.userRepository.update(id, user);
+  async update(id: number, user: Partial<User>) {
+    const existed = await this.findById(id);
+    const _user = this.userRepository.merge(existed, user);
+    return await this.userRepository.save(_user);
   }
 
   remove(id: number) {

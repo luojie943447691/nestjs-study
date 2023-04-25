@@ -14,7 +14,7 @@ export class CreateUserDto {
     //     return `账号长度最多是${max}`;
     //   }
     // },
-    message: `账号长度应该在$constraint1到$constraint2之间，实绩接受到的数据是$value `,
+    message: `账号长度应该在$constraint1到$constraint2之间`,
   })
   username: string;
 

@@ -23,6 +23,8 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { CreateUserPipe } from './pipes/create-user.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { AdminGuard } from 'src/guards/AdminGuard';
+import { UpdateUserGuard } from './guards/update-user.guards';
 
 @Controller({
   path: 'user',
@@ -46,13 +48,15 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() user: User) {
-    return this.userService.update(id, user);
+  @Patch('/:id')
+  @UseGuards(AuthGuard('jwt'), UpdateUserGuard)
+  update(@Param('id', ParseIntPipe) id: number, @Body() user: UpdateUserDto) {
+    return this.userService.update(id, user as User);
   }
 
   @Delete(':id')
@@ -61,10 +65,8 @@ export class UserController {
   }
 
   @Get('findProfile/:id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
   findProfile(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
-    console.log('===', req.user);
-
     return this.userService.findProfile(id);
   }
 

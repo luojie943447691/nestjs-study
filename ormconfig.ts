@@ -38,6 +38,7 @@ function getConnectParameters() {
     logging: false,
     // logging: ['error', 'warn'],
     entities: entitiesDir,
+    retryAttempts: Infinity,
   } as unknown as TypeOrmModuleOptions;
 }
 

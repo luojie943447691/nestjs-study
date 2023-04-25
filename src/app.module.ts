@@ -33,6 +33,7 @@ import { AllException } from './exception-filter/AllExceptionFilter';
 import { LogModule } from './log/log.module';
 import { connectionParams } from '../ormconfig';
 import { AuthModule } from './auth/auth.module';
+import { PermissionsModule } from './permissions/permissions.module';
 
 const envFilePath = `.env.${process.env.NODE_ENV ?? 'development'}`;
 
@@ -71,6 +72,7 @@ const envFilePath = `.env.${process.env.NODE_ENV ?? 'development'}`;
     GlobalModule,
     LogModule,
     AuthModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
   providers: [

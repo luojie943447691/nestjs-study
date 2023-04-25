@@ -22,6 +22,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   // 全局拦截器
   app.useGlobalInterceptors(new LoggingInterceptor());
-  await app.listen(3000);
+  await app.listen(3100, '0.0.0.0');
 }
 bootstrap();
