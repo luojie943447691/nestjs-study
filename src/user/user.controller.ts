@@ -25,7 +25,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { AdminGuard } from 'src/guards/AdminGuard';
 import { UpdateUserGuard } from './guards/update-user.guards';
+import { JWTGuard } from 'src/guards/jwt.guard';
 
+@UseGuards(JWTGuard)
 @Controller({
   path: 'user',
 })
@@ -48,13 +50,13 @@ export class UserController {
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  @UseGuards(AdminGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findById(id);
   }
 
   @Patch('/:id')
-  @UseGuards(AuthGuard('jwt'), UpdateUserGuard)
+  @UseGuards(UpdateUserGuard)
   update(@Param('id', ParseIntPipe) id: number, @Body() user: UpdateUserDto) {
     return this.userService.update(id, user as User);
   }
@@ -65,7 +67,7 @@ export class UserController {
   }
 
   @Get('findProfile/:id')
-  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  @UseGuards(AdminGuard)
   findProfile(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     return this.userService.findProfile(id);
   }
