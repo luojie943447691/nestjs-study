@@ -1,17 +1,10 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { QueryUserDto } from './dto/query-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { LogsService } from '../logs/logs.service';
 import { RolesService } from '../roles/roles.service';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
@@ -37,6 +30,9 @@ export class UserService {
       user.roles = await this.rolesService.findByIds(user.roles);
     }
     const userTemp = this.userRepository.create(user);
+
+    // 加密
+    userTemp.password = await argon2.hash(userTemp.password);
 
     return await this.userRepository.save(userTemp);
   }

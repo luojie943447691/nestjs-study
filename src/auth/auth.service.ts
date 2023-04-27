@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,10 @@ export class AuthService {
   async signin(username: string, password: string) {
     const user = await this.userService.findByUsername(username);
 
-    if (username && password === user.password) {
+    // 密码是否相同
+    const isSame = await argon2.verify(user.password, password);
+
+    if (isSame) {
       // 签名
       return await this.jwtService.sign({ username, sub: user.id });
     }
