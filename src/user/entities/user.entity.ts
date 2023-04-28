@@ -11,17 +11,20 @@ import {
 import { Log } from '../../logs/entities/log.entity';
 import { Role } from '../../roles/entities/role.entity';
 import { Profile } from '../../profile/entities/profile.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
   // 主键 id
   @PrimaryGeneratedColumn()
+  @Exclude()
   id: number;
 
   @Column({ name: 'username', type: 'varchar', length: 100 })
   username: string;
 
   @Column({ name: 'password', type: 'varchar', length: 100 })
+  @Exclude()
   password: string;
 
   // 这里需要好好理解一下 OneToMany 的第二个参数

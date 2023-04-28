@@ -18,6 +18,8 @@ export class LogsController {
 
   @Post()
   create(@Body() createLogDto: CreateLogDto) {
+    console.log('createLogDto', createLogDto);
+
     return this.logsService.create(createLogDto);
   }
 

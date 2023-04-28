@@ -19,7 +19,12 @@ async function bootstrap() {
   // 全局异常过滤器 已经被移动到 app.module.ts 中
   // app.useGlobalFilters(new HttpExceptionFilter());
   // 全局校验管道
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      // 打开此属性，如果用户恶意传 dto 中不存在的字段， pipes 会自动给他过滤掉
+      whitelist: true,
+    }),
+  );
   // 全局拦截器
   app.useGlobalInterceptors(new LoggingInterceptor());
   await app.listen(3100, '0.0.0.0');

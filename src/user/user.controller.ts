@@ -27,7 +27,7 @@ import { AdminGuard } from 'src/guards/AdminGuard';
 import { UpdateUserGuard } from './guards/update-user.guards';
 import { JWTGuard } from 'src/guards/jwt.guard';
 
-@UseGuards(JWTGuard)
+// @UseGuards(JWTGuard)
 @Controller({
   path: 'user',
 })
