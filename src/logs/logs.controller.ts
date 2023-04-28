@@ -13,13 +13,15 @@ import { LogsService } from './logs.service';
 import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
 import { SerializeInterceptor } from 'src/interceptors/serialize/serialize.interceptor';
+import { Log } from './entities/log.entity';
 
 @Controller('logs')
 export class LogsController {
   constructor(private readonly logsService: LogsService) {}
 
   @Post()
-  @UseInterceptors(new SerializeInterceptor(CreateLogDto))
+  // @UseInterceptors(new SerializeInterceptor(CreateLogDto))
+  @UseInterceptors(new SerializeInterceptor(Log))
   create(@Body() createLogDto: CreateLogDto) {
     console.log('createLogDto', createLogDto);
 

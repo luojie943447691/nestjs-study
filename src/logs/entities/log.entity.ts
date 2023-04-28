@@ -6,6 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Exclude, Expose } from 'class-transformer';
 
 @Entity()
 export class Log {
@@ -18,6 +19,7 @@ export class Log {
   @Column()
   data: string;
   @Column()
+  @Expose()
   result: string;
 
   @ManyToOne(() => User, (user) => user.logs)
