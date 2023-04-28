@@ -7,20 +7,23 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { LogsService } from './logs.service';
 import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
+import { SerializeInterceptor } from 'src/interceptors/serialize/serialize.interceptor';
 
 @Controller('logs')
 export class LogsController {
   constructor(private readonly logsService: LogsService) {}
 
   @Post()
+  @UseInterceptors(new SerializeInterceptor(CreateLogDto))
   create(@Body() createLogDto: CreateLogDto) {
     console.log('createLogDto', createLogDto);
 
-    return this.logsService.create(createLogDto);
+    return createLogDto;
   }
 
   @Get()

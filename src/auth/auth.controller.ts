@@ -23,7 +23,7 @@ export class AuthController {
   }
 
   @Post('signup')
-  @UseInterceptors(SerializeInterceptor)
+  @UseInterceptors(new SerializeInterceptor())
   signup(@Body() dto: SigninAuth) {
     const { username, password } = dto;
     return this.authService.signup(username, password);
