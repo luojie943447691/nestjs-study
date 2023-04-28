@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { SerializeInterceptor } from '../interceptors/serialize/serialize.interceptor';
 import { AuthService } from './auth.service';
 import { SigninAuth } from './dto/signin-auth.dto';
 
@@ -15,6 +16,7 @@ export class AuthController {
   }
 
   @Post('signup')
+  @UseInterceptors(SerializeInterceptor)
   signup(@Body() dto: SigninAuth) {
     const { username, password } = dto;
     return this.authService.signup(username, password);
