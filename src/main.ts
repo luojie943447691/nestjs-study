@@ -21,7 +21,7 @@ async function bootstrap() {
   // 全局校验管道
   app.useGlobalPipes(
     new ValidationPipe({
-      // 打开此属性，如果用户恶意传 dto 中不存在的字段， pipes 会自动给他过滤掉
+      // 打开此属性，如果用户恶意传 dto 中没有装饰器的字段， pipes 会自动给他过滤掉
       whitelist: true,
     }),
   );

@@ -1,5 +1,4 @@
 import {
-  Logger,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -18,7 +17,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { DatabaseEnum } from './enum/enum.config';
 import * as Joi from 'joi';
 import { User } from './user/entities/user.entity';
 import { ProfileModule } from './profile/profile.module';
@@ -35,6 +33,7 @@ import { connectionParams } from '../ormconfig';
 import { AuthModule } from './auth/auth.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import databaseConfig from './database/database.config';
+import { CacheModule } from '@nestjs/cache-manager';
 
 const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
 
@@ -64,6 +63,12 @@ const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
       }),
     }),
     TypeOrmModule.forRoot(connectionParams),
+    // 开启缓存
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 20 * 1000, // seconds
+      max: 30 * 1000, // maximum number of items in cache
+    }),
     // handlePinoModule(),
     ProfileModule,
     LogsModule,

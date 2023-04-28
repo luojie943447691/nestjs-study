@@ -13,6 +13,7 @@ import {
   HttpStatus,
   UseGuards,
   Req,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,17 +27,26 @@ import { Request } from 'express';
 import { AdminGuard } from 'src/guards/AdminGuard';
 import { UpdateUserGuard } from './guards/update-user.guards';
 import { JWTGuard } from 'src/guards/jwt.guard';
+import {
+  CacheInterceptor,
+  CacheKey,
+  CacheTTL,
+  CACHE_MANAGER,
+} from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 // @UseGuards(JWTGuard)
 @Controller({
   path: 'user',
 })
+@UseInterceptors(CacheInterceptor)
 export class UserController {
   // private logger = new Logger(UserController.name);
   constructor(
     private readonly userService: UserService,
     @Inject(WINSTON_MODULE_NEST_PROVIDER)
     private readonly logger: LoggerService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   @Post()
@@ -73,6 +83,8 @@ export class UserController {
   }
 
   @Get('logs/:id')
+  @CacheKey('custom_key')
+  @CacheTTL(5 * 1000)
   findLogs(@Param('id', ParseIntPipe) id: number) {
     this.logger.warn('这是测试信息');
     // throw new HttpException('这是测试测试日志', HttpStatus.NOT_FOUND);
