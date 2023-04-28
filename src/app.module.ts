@@ -34,6 +34,7 @@ import { LogModule } from './log/log.module';
 import { connectionParams } from '../ormconfig';
 import { AuthModule } from './auth/auth.module';
 import { PermissionsModule } from './permissions/permissions.module';
+import databaseConfig from './database/database.config';
 
 const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
 
@@ -43,7 +44,7 @@ const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath,
-      load: [() => dotenv.config({ path: '.env' })],
+      load: [() => dotenv.config({ path: '.env' }), databaseConfig],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test', 'provision')
