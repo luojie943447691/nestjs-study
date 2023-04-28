@@ -35,7 +35,7 @@ import { connectionParams } from '../ormconfig';
 import { AuthModule } from './auth/auth.module';
 import { PermissionsModule } from './permissions/permissions.module';
 
-const envFilePath = `.env.${process.env.NODE_ENV ?? 'development'}`;
+const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
 
 @Module({
   imports: [

@@ -18,7 +18,7 @@ function getEnv(env: string) {
 
 function getConnectParameters() {
   const defaultConfig = getEnv('.env');
-  const envConfig = getEnv(`.env.${process.env.NODE_ENV ?? `development`}`);
+  const envConfig = getEnv(`.${process.env.NODE_ENV ?? `development`}.env`);
   const config = { ...defaultConfig, ...envConfig };
 
   const entitiesDir =
