@@ -34,6 +34,7 @@ import {
   CACHE_MANAGER,
 } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { Cron, Interval } from '@nestjs/schedule';
 
 // @UseGuards(JWTGuard)
 @Controller({
@@ -90,4 +91,14 @@ export class UserController {
     // throw new HttpException('这是测试测试日志', HttpStatus.NOT_FOUND);
     return this.userService.findLogs(id);
   }
+
+  // @Cron('10 * * * * *')
+  // taskScheduling() {
+  //   this.logger.warn('每分钟第十秒执行一次');
+  // }
+
+  // @Interval(1000 * 10)
+  // everyTenSeconds() {
+  //   this.logger.warn('每十秒执行一次');
+  // }
 }

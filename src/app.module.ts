@@ -34,6 +34,7 @@ import { AuthModule } from './auth/auth.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import databaseConfig from './database/database.config';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ScheduleModule } from '@nestjs/schedule';
 
 const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
 
@@ -69,6 +70,8 @@ const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
       ttl: 20 * 1000, // seconds
       max: 30 * 1000, // maximum number of items in cache
     }),
+    // 任务调度
+    ScheduleModule.forRoot(),
     // handlePinoModule(),
     ProfileModule,
     LogsModule,
