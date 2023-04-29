@@ -14,12 +14,13 @@ import {
   FileTypeValidator,
   ParseFilePipeBuilder,
   HttpStatus,
+  UploadedFiles,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { FileSizeValidationPipe } from '../pipes/file-size-validation/file-size-validation.pipe';
 
 @Controller('profile')
@@ -57,6 +58,31 @@ export class ProfileController {
     @Body() createProfileDto: CreateProfileDto,
   ) {
     return this.profileService.create(avatar, createProfileDto as Profile);
+  }
+
+  @Post('uploadBulk')
+  @UseInterceptors(
+    FilesInterceptor('avatar', 2, {
+      limits: { fileSize: 1024 * 1024 },
+    }),
+  )
+  bulkFile(
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          // new MaxFileSizeValidator({ maxSize: 1024 * 10 }),
+          // new FileTypeValidator({ fileType: 'image/jpeg' }),
+        ],
+      }),
+    )
+    avatars: Express.Multer.File[],
+    @Body() createProfileDto: CreateProfileDto,
+  ) {
+    avatars.forEach((d) => {
+      console.log('avatar.name', d.buffer.length);
+    });
+
+    return 'success';
   }
 
   @Get()
