@@ -6,11 +6,26 @@ import { User } from './entities/user.entity';
 import { LogsModule } from '../logs/logs.module';
 import { RolesModule } from 'src/roles/roles.module';
 import { PermissionsModule } from 'src/permissions/permissions.module';
+import { BullModule } from '@nestjs/bull';
+import { UserConsumer } from './queue/user.consumer';
+import { UserProducer } from './queue/user.producer';
+import { SecondUserConsumer } from './queue/second-user.consumer';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), LogsModule, RolesModule],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    LogsModule,
+    RolesModule,
+    BullModule.registerQueue({
+      name: 'user',
+    }),
+    BullModule.registerQueue({
+      configKey: 'second-redis',
+      name: 'second-user',
+    }),
+  ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, UserConsumer, UserProducer, SecondUserConsumer],
   exports: [UserService],
 })
 export class UserModule {}

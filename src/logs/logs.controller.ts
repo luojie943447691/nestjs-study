@@ -14,6 +14,7 @@ import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
 import { SerializeInterceptor } from 'src/interceptors/serialize/serialize.interceptor';
 import { Log } from './entities/log.entity';
+import { UserConsumer } from 'src/user/queue/user.consumer';
 
 @Controller('logs')
 export class LogsController {

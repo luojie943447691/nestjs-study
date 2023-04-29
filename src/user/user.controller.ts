@@ -35,6 +35,10 @@ import {
 } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Cron, Interval } from '@nestjs/schedule';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
+import { UserProducer } from './queue/user.producer';
+import { SecondUserConsumer } from './queue/second-user.consumer';
 
 // @UseGuards(JWTGuard)
 @Controller({
@@ -48,6 +52,8 @@ export class UserController {
     @Inject(WINSTON_MODULE_NEST_PROVIDER)
     private readonly logger: LoggerService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly userProducer: UserProducer,
+    private readonly secondUserProducer: SecondUserConsumer,
   ) {}
 
   @Post()
@@ -101,4 +107,17 @@ export class UserController {
   // everyTenSeconds() {
   //   this.logger.warn('每十秒执行一次');
   // }
+
+  // 队列测试
+  @Get('queue/:id')
+  async queue(@Param('id', ParseIntPipe) id: number) {
+    await this.userProducer.sendMessage(
+      `this is userId's producer, data is ${id}`,
+    );
+    await this.userProducer.sendNoNameMessage(
+      `this is noname producer, data is ${id}`,
+    );
+
+    return 'success';
+  }
 }

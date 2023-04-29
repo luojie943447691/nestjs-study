@@ -35,6 +35,7 @@ import { PermissionsModule } from './permissions/permissions.module';
 import databaseConfig from './database/database.config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BullModule } from '@nestjs/bull';
 
 const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
 
@@ -72,6 +73,19 @@ const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
     }),
     // 任务调度
     ScheduleModule.forRoot(),
+    // 队列
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    BullModule.forRoot('second-redis', {
+      redis: {
+        host: 'localhost',
+        port: 6380,
+      },
+    }),
     // handlePinoModule(),
     ProfileModule,
     LogsModule,
