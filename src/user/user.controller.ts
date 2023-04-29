@@ -14,6 +14,7 @@ import {
   UseGuards,
   Req,
   UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,9 +25,9 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { CreateUserPipe } from './pipes/create-user.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { AdminGuard } from 'src/guards/AdminGuard';
+import { AdminGuard } from '../guards/AdminGuard';
 import { UpdateUserGuard } from './guards/update-user.guards';
-import { JWTGuard } from 'src/guards/jwt.guard';
+import { JWTGuard } from '../guards/jwt.guard';
 import {
   CacheInterceptor,
   CacheKey,
@@ -39,6 +40,8 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { UserProducer } from './queue/user.producer';
 import { SecondUserConsumer } from './queue/second-user.consumer';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileSizeValidationPipe } from '../pipes/file-size-validation/file-size-validation.pipe';
 
 // @UseGuards(JWTGuard)
 @Controller({
@@ -119,5 +122,16 @@ export class UserController {
     );
 
     return 'success';
+  }
+
+  // 测试上传文件
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(
+    @UploadedFile(FileSizeValidationPipe) file: Express.Multer.File,
+    @Body() dto: any,
+  ) {
+    console.log(file);
+    console.log('dto', dto);
   }
 }

@@ -6,15 +6,19 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Profile {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ default: 1 })
   gender: number;
-  @Column()
+  @Column({ default: '重庆市' })
   address: string;
+  @Column({ type: 'blob', nullable: true })
+  @Exclude()
+  avatar: Buffer;
 
   @OneToOne(() => User, (user) => user.profile)
   @JoinColumn({ name: 'user_id' })

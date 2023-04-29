@@ -23,6 +23,7 @@ async function bootstrap() {
     new ValidationPipe({
       // 打开此属性，如果用户恶意传 dto 中没有装饰器的字段， pipes 会自动给他过滤掉
       whitelist: true,
+      transform: true,
     }),
   );
   // 全局拦截器

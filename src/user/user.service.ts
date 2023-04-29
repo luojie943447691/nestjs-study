@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { LogsService } from '../logs/logs.service';
 import { RolesService } from '../roles/roles.service';
 import * as argon2 from 'argon2';
+import fs from 'fs-extra';
+import { join } from 'path';
+import { Profile } from 'src/profile/entities/profile.entity';
 
 @Injectable()
 export class UserService {
