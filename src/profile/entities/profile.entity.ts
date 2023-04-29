@@ -16,7 +16,7 @@ export class Profile {
   gender: number;
   @Column({ default: '重庆市' })
   address: string;
-  @Column({ type: 'blob', nullable: true })
+  @Column({ type: 'mediumblob', nullable: true })
   @Exclude()
   avatar: Buffer;
 
