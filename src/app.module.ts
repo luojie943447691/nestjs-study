@@ -36,6 +36,8 @@ import databaseConfig from './database/database.config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
+import { EventsGateway } from './gateway/events/events.gateway';
+import { EventsModule } from './gateway/events/events.module';
 
 const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
 
@@ -96,6 +98,7 @@ const envFilePath = [`.${process.env.NODE_ENV ?? 'development'}.env`];
     LogModule,
     AuthModule,
     PermissionsModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [
